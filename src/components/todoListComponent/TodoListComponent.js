@@ -1,40 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { getListItems, updateItemRequest } from "../../common/RequestAPI";
 import { Spinner } from "react-bootstrap";
+import ListElement from "./listElement/ListElement";
 import "./TodoListComponent.scss";
 
 function TodoListComponent() {
   const [todoListState, setTodoListState] = useState([]);
-  let itemDateStatus = "";
-
+  
   useEffect(() => {
     (async () => {
       const request = await getListItems();
-      setTodoListState(request.data);
+      const data = request.data;
+      setTodoListState(sortElements(data));
     })();
   }, []);
 
-  const convertDateToString = (date) => {
-    return new Date(date).toLocaleDateString();
-  };
-
-  const checkOverdueDate = (date) => {
-    if (!date) return (itemDateStatus = 1);
-    const itemDate = new Date(date).getTime();
-    const todayDate = new Date().getTime();
-    itemDateStatus = itemDate < todayDate ? 0 : 1;
-    return itemDateStatus;
-  };
-
   const updateStatus = (e, item) => {
     const newValue = e.target.checked;
+    const updatedState = [...todoListState];
+
     const itemIndex = todoListState.findIndex((element) => {
       return element.id === item.id;
     });
-
-    const updatedState = [...todoListState];
     updatedState[itemIndex].isComplete = newValue;
-    setTodoListState(updatedState);
+    setTodoListState(sortElements(updatedState));
     updateItemRequest(item, newValue)
       .then((response) => {})
       .catch((err) => {
@@ -42,6 +31,37 @@ function TodoListComponent() {
         setTodoListState(updatedState);
         throw new Error("Something went wrong on updating the item!");
       });
+  };
+
+  const checkOverdueDate = (date) => {
+    if (!date) return 1;
+    const itemDate = new Date(date).getTime();
+    const todayDate = new Date().getTime();
+    return itemDate > todayDate ? 1 : 0;
+  };
+
+  const setItemsStatus = (list) => {
+    list.forEach((item) => {
+      if (item.isComplete) {
+         item["status"] = {id : 3 , type : 'Completed'}; // completed
+      } else if (checkOverdueDate(item?.dueDate)) {
+         item["status"] = {id : 2 , type : 'Pending'}; // completed
+      } else {
+         item["status"] = {id : 1 , type : 'Overdue'}; // completed
+      }
+    });
+    return list;
+  };
+
+  const sortElements = (list) => {
+    const items =  setItemsStatus(list);
+    const sortItems = items.sort(function (a, b) {
+      if (a.status.id === b.status.id) {
+        return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+      }
+      return a.status.id > b.status.id ? 1 : -1;
+    });
+    return sortItems;
   };
 
   return (
@@ -65,41 +85,12 @@ function TodoListComponent() {
             <tbody>
               {todoListState.length
                 ? todoListState.map((item) => (
-                    <tr
+                    <ListElement
                       key={item?.id}
-                      className={
-                        item?.isComplete
-                          ? "table-success"
-                          : !checkOverdueDate(item?.dueDate)
-                          ? "table-danger"
-                          : ""
-                      }
-                    >
-                      <th scope="row">*</th>
-                      <td className={item?.isComplete ? "item-completed" : ""}>
-                        {item?.description || ""}
-                      </td>
-                      <td>
-                        {item?.dueDate ? convertDateToString(item.dueDate) : ""}
-                      </td>
-                      <td className="item-status">
-                        {item?.isComplete
-                          ? "Completed"
-                          : !itemDateStatus
-                          ? "Overdue"
-                          : "Pending"}
-                      </td>
-                      <td>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            defaultChecked={item?.isComplete}
-                            onChange={(e) => updateStatus(e, item)}
-                          ></input>
-                        </div>
-                      </td>
-                    </tr>
+                      item={item}
+                      updateStatus={updateStatus}
+                      checkOverdueDate={checkOverdueDate}
+                    />
                   ))
                 : null}
             </tbody>
