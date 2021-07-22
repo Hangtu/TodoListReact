@@ -45,9 +45,9 @@ function TodoListComponent() {
       if (item.isComplete) {
         item["status"] = { id: 3, type: "Completed" }; // completed
       } else if (checkOverdueDate(item?.dueDate)) {
-        item["status"] = { id: 2, type: "Pending" }; // completed
+        item["status"] = { id: 2, type: "Pending" }; // pending
       } else {
-        item["status"] = { id: 1, type: "Overdue" }; // completed
+        item["status"] = { id: 1, type: "Overdue" }; // overdue
       }
     });
     return list;
