@@ -1,8 +1,7 @@
 import React from "react";
+//import styled from "styled-components"
 
 function ListElement({ item, updateStatus, checkOverdueDate }) {
-
-
   const convertDateToString = (date) => {
     return new Date(date).toLocaleDateString();
   };
@@ -10,11 +9,11 @@ function ListElement({ item, updateStatus, checkOverdueDate }) {
   return (
     <tr
       className={
-        item?.isComplete
+        "tableRow " +(item?.isComplete
           ? "table-success"
           : !checkOverdueDate(item?.dueDate)
           ? "table-danger"
-          : ""
+          : "") 
       }
     >
       <th scope="row">*</th>
@@ -22,9 +21,7 @@ function ListElement({ item, updateStatus, checkOverdueDate }) {
         {item?.description || ""}
       </td>
       <td>{item?.dueDate ? convertDateToString(item.dueDate) : ""}</td>
-      <td className="item-status">
-        {item?.status?.type}
-      </td>
+      <td className="tableRow__item-status">{item?.status?.type}</td>
       <td>
         <div className="form-check">
           <input

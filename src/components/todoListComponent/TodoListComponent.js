@@ -6,7 +6,7 @@ import "./TodoListComponent.scss";
 
 function TodoListComponent() {
   const [todoListState, setTodoListState] = useState([]);
-  
+
   useEffect(() => {
     (async () => {
       const request = await getListItems();
@@ -43,18 +43,18 @@ function TodoListComponent() {
   const setItemsStatus = (list) => {
     list.forEach((item) => {
       if (item.isComplete) {
-         item["status"] = {id : 3 , type : 'Completed'}; // completed
+        item["status"] = { id: 3, type: "Completed" }; // completed
       } else if (checkOverdueDate(item?.dueDate)) {
-         item["status"] = {id : 2 , type : 'Pending'}; // completed
+        item["status"] = { id: 2, type: "Pending" }; // completed
       } else {
-         item["status"] = {id : 1 , type : 'Overdue'}; // completed
+        item["status"] = { id: 1, type: "Overdue" }; // completed
       }
     });
     return list;
   };
 
   const sortElements = (list) => {
-    const items =  setItemsStatus(list);
+    const items = setItemsStatus(list);
     const sortItems = items.sort(function (a, b) {
       if (a.status.id === b.status.id) {
         return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
@@ -72,11 +72,11 @@ function TodoListComponent() {
         <div className="table-responsive">
           <table className="table">
             <thead>
-              <tr>
+              <tr className="tableRow">
                 <th scope="col">#</th>
                 <th scope="col">Task</th>
                 <th scope="col">Due Date</th>
-                <th scope="col" className="item-status">
+                <th scope="col" className="tableRow__item-status">
                   Status
                 </th>
                 <th scope="col">Check</th>
