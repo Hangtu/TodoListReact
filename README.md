@@ -30,7 +30,9 @@ Your app is ready to be deployed!
 
 In case of "The engine “node” is incompatible with this module" issue , run this:
 
+```
 yarn config set ignore-engines true
+```
 
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
