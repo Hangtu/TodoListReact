@@ -1,0 +1,20 @@
+tr {
+  .item-completed {
+    text-decoration: line-through;
+  }
+}
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+@media (max-width: 991.98px) {
+  // tablets and less
+  .item-status {
+    display: none;
+  }
+}
+
+
+//flex order is not allowed in tables
