@@ -9,9 +9,9 @@ function ListElement({ item, updateStatus, checkOverdueDate }) {
   return (
     <tr
       className={
-        (item?.isComplete
+        (item?.status.id === 3
           ? "table-success"
-          : !checkOverdueDate(item?.dueDate)
+          : item?.status.id === 1
           ? "table-danger"
           : "") 
       }

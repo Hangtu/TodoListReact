@@ -89,7 +89,6 @@ function TodoListComponent() {
                       key={item?.id}
                       item={item}
                       updateStatus={updateStatus}
-                      checkOverdueDate={checkOverdueDate}
                     />
                   ))
                 : null}
