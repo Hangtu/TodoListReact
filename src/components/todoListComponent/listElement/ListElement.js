@@ -9,7 +9,7 @@ function ListElement({ item, updateStatus, checkOverdueDate }) {
   return (
     <tr
       className={
-        "tableRow " +(item?.isComplete
+        (item?.isComplete
           ? "table-success"
           : !checkOverdueDate(item?.dueDate)
           ? "table-danger"
@@ -21,7 +21,7 @@ function ListElement({ item, updateStatus, checkOverdueDate }) {
         {item?.description || ""}
       </td>
       <td>{item?.dueDate ? convertDateToString(item.dueDate) : ""}</td>
-      <td className="tableRow__item-status">{item?.status?.type}</td>
+      <td className="table__data table__data--hide">{item?.status?.type}</td>
       <td>
         <div className="form-check">
           <input

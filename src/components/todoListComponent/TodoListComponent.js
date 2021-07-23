@@ -76,7 +76,7 @@ function TodoListComponent() {
                 <th scope="col">#</th>
                 <th scope="col">Task</th>
                 <th scope="col">Due Date</th>
-                <th scope="col" className="tableRow__item-status">
+                <th scope="col" className="table__data table__data--hide">
                   Status
                 </th>
                 <th scope="col">Check</th>

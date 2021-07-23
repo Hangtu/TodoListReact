@@ -1,3 +1,6 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 tr {
   .item-completed {
     text-decoration: line-through;
@@ -9,9 +12,9 @@ tr {
   left: 50%;
 }
 
-@media (max-width: 991.98px) {
+@include media-breakpoint-down(lg) {
   // tablets and less}
-  .tableRow__item-status {
+  .table__data--hide {
     display: none;
   }
 }
