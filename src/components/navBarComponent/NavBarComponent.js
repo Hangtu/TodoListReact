@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, Container } from "react-bootstrap";
-import "./NavBarComponent.scss";
 
 function NavBarComponent() {
   return (
@@ -12,4 +11,4 @@ function NavBarComponent() {
   );
 }
 
-export default  React.memo(NavBarComponent);
+export default  NavBarComponent;
